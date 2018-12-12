@@ -5,7 +5,6 @@ function MyListItem(props) {
   return (
     <TouchableOpacity
       onPress={props.onPressAdd}
-      underlayColor="#202020"
       key={props.id}
     >
       <View style={styles.container}>

@@ -5,11 +5,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated,
+  AsyncStorage,
   Dimensions,
-  FlatList
+  FlatList,
+  RefreshControl
 } from "react-native";
 import { connect } from "react-redux";
-import { fetchSymbols } from "../actions/stockActions";
+import { addListQuotes, clearState } from "../actions/stockActions";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -25,9 +27,24 @@ class DisplayComponent extends Component {
     super(props);
     this.state = {
       quotes: props.quotes,
+      selectedSymbols: props.selectedSymbols,
+      refreshing: false,
       settingsBounceValue: new Animated.Value(height)
     };
+    this.onRefresh = this.onRefresh.bind(this);
   }
+   
+  async onRefresh() {
+    console.log("starting");
+    const { selectedSymbols } = this.props;
+    await this.setState({ refreshing: true }),
+    await this.props.addListQuotes(selectedSymbols).then(() =>
+      this.setState({
+        refreshing: false
+      })
+    );
+  }
+
 
   static getDerivedStateFromProps(props, state) {
     if (props.quotes.length !== state.quotes.length) {
@@ -42,7 +59,7 @@ class DisplayComponent extends Component {
       name={item.companyName}
       symbol={item.symbol}
       latestPrice={item.latestPrice}
-      timeUpdated = {item.latestUpdate}
+      timeUpdated={item.latestUpdate}
     />
   );
 
@@ -65,6 +82,7 @@ class DisplayComponent extends Component {
   };
 
   render() {
+    console.log(this.props.selectedSymbols)
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
@@ -83,6 +101,14 @@ class DisplayComponent extends Component {
             data={this.state.quotes}
             keyExtractor={index => index.toString()}
             renderItem={this.renderItem}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+            removeClippedSubviews={false}
+            showsVerticalScrollIndicator={false}
           />
         </View>
         <Animated.View
@@ -102,12 +128,13 @@ class DisplayComponent extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
-  quotes: state.stockReducer.quotes
-})
+const mapStateToProps = state => ({
+  quotes: state.stockReducer.quotes,
+  selectedSymbols: state.stockReducer.selectedSymbols
+});
 export default connect(
   mapStateToProps,
-  { fetchSymbols }
+  { addListQuotes, clearState }
 )(DisplayComponent);
 
 const styles = StyleSheet.create({

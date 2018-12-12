@@ -1,7 +1,7 @@
 import {
   FETCH_ALL_SYMBOLS,
   POPULATE_QUOTES,
-  SELECTED_SYMBOLS,
+  POPULATE_LIST_QUOTES,
   DELETE_SYMBOL
 } from "../actions/actionTypes";
 
@@ -18,18 +18,41 @@ export default function stockReducer(state = initialState, action) {
         ...state,
         symbols: action.data
       };
+    case POPULATE_LIST_QUOTES:
+      const updatedListSymbols = Object.keys(action.data).map(item => {
+        return action.data[`${item}`].quote;
+      });
+      
+      const symbolList = state.quotes.map(
+        item => item.symbol
+      );
+      const filterListUpdatedQuote = symbolList.filter((item) => {
+        return action.symbol.map((newItem) => item !== newItem )
+      })
 
+      return {
+        ...state,
+        quotes: [...updatedListSymbols, ...filterListUpdatedQuote]
+      };
+
+      
     case POPULATE_QUOTES:
+      const { symbol } = action;
+
       const filteredKeys = state.selectedSymbols.filter(item => {
-        return item !== action.symbol;
+        return item !== symbol;
       });
       const updatedSymbols = Object.keys(action.data).map(item => {
         return action.data[`${item}`].quote;
       });
+
+      const filterUpdatedQuote = state.quotes.filter(
+        item => item.symbol !== symbol
+      );
       return {
         ...state,
-        quotes: [...state.quotes, ...updatedSymbols],
-        selectedSymbols: [...filteredKeys, action.symbol]
+        quotes: [...filterUpdatedQuote, ...updatedSymbols],
+        selectedSymbols: [...filteredKeys, symbol]
       };
     case DELETE_SYMBOL:
       let { selectedSymbols, quotes } = state;

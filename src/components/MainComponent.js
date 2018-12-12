@@ -96,6 +96,8 @@ class MainComponent extends Component {
             data={this.state.quotes}
             keyExtractor={index => index.toString()}
             renderItem={this.renderItem}
+            removeClippedSubviews={false}
+            showsVerticalScrollIndicator={false}
           />
         </View>
         <Animated.View
@@ -113,7 +115,7 @@ class MainComponent extends Component {
             closeSubview={this.closeSubview}
             symbols={this.props.symbols}
             quotes={this.props.quotes}
-            selectedSymbols={this.state.selectedSymbols}
+            selectedSymbols={this.props.selectedSymbols}
           />
         </Animated.View>
       </View>
@@ -171,7 +173,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flex: 1,
-    backgroundColor: "#000000"
+    backgroundColor: "#000000",
+    height,
   },
   marginLeftText: { marginLeft: 10, color: 'blue' }
 });

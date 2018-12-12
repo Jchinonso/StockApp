@@ -91,6 +91,8 @@ class AddComponent extends Component {
             }
             keyExtractor={index => index.toString()}
             renderItem={this.renderItem}
+            removeClippedSubviews={false}
+            showsVerticalScrollIndicator={false}
           />
         </View>
       </View>
