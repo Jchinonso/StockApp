@@ -87,7 +87,7 @@ class DisplayComponent extends Component {
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <View style={styles.textContainer}>
-            <TouchableOpacity onPress={this.toggleSubview}>
+            <TouchableOpacity>
               <Text style={[styles.text, styles.marginLeftText]}>Sort</Text>
             </TouchableOpacity>
             <Text style={styles.text}>Stock App</Text>
