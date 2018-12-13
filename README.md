@@ -23,6 +23,8 @@ Installation
 5.  Start the app `npm start`
 6. Install an expo client on your mobile device then scan the QR code on the console. You can run on simulator with this command
 `npm run android` or `npm run ios`
+7. You can also scan directly without any installation just install an expo client on your mobile device then scan the QR code on this page https://expo.io/@jchinonso/stockApp
+
 
 Code Formating
 --------------
