@@ -24,16 +24,17 @@ import {
 } from "../actions/stockActions";
 import StockList from "../components/common/StockList";
 
-const { width, height } = Dimensions.get("window");
+const {height } = Dimensions.get("window");
 
 class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       quotes: props.quotes,
-      refreshing: false
+      refreshing: false,
     };
     this.onRefresh = this.onRefresh.bind(this);
+    this.sortListByPrice = this.sortListByPrice.bind(this)
   }
 
   componentDidMount() {
@@ -59,6 +60,12 @@ class MainComponent extends Component {
       );
   }
 
+  sortListByPrice() {
+    const sortedQuote = this.state.quotes.sort((a, b) => a > b)
+    this.setState({
+      quotes: sortedQuote
+    })
+  }
   onPressDelete(symbol) {
     this.props.deleteSymbols(symbol);
   }
@@ -77,7 +84,7 @@ class MainComponent extends Component {
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <View style={styles.textContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.sortListByPrice}>
               <Text style={[styles.text, styles.marginLeftText]}>Sort</Text>
             </TouchableOpacity>
             <Text style={styles.text}>Stock App</Text>

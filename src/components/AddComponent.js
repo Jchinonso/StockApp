@@ -5,8 +5,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
-  AsyncStorage
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import {bindActionCreators} from 'redux';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -61,6 +62,7 @@ class AddComponent extends Component {
     this.props.addQuotes(quote.symbol);
   }
 
+
   render() {
     return (
       <View style={styles.container}>
@@ -74,6 +76,7 @@ class AddComponent extends Component {
               containerStyle={styles.searchBarContainer}
               onChangeText={this.onChangeText}
               inputStyle={styles.searchBarInputStyle}
+              clearIcon={<Ionicons name="md-close" size={20} />}
               icon={{
                 type: "font-awesome",
                 name: "search"
@@ -107,9 +110,15 @@ const mapStateToProps = state => ({
   symbols: state.stockReducer.symbols
 });
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    { addQuotes },
+    dispatch
+  );
+
 export default connect(
   mapStateToProps,
-  { addQuotes }
+  mapDispatchToProps
 )(AddComponent);
 
 const styles = StyleSheet.create({

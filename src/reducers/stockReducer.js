@@ -51,6 +51,7 @@ export default function stockReducer(state = initialState, action) {
         quotes: [...filterUpdatedQuote, ...updatedSymbols],
         selectedSymbols: [...filteredKeys, symbol]
       };
+
     case DELETE_SYMBOL:
       let { selectedSymbols, quotes } = state;
       const filteredQuotes = quotes.filter(
@@ -64,6 +65,7 @@ export default function stockReducer(state = initialState, action) {
         selectedSymbols: filteredSymbols,
         quotes: filteredQuotes
       };
+      
     default:
       return state;
   }
