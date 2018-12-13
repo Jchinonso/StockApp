@@ -76,7 +76,7 @@ class MainComponent extends Component {
       name={item.companyName}
       symbol={item.symbol}
       latestPrice={item.latestPrice}
-      timeUpdated={moment(item.latestUpdate).format("LL")}
+      timeUpdated={moment(item.latestUpdate).format("LLL")}
       onPressDelete={() => this.onPressDelete(item.symbol)}
     />
   );
