@@ -73,10 +73,12 @@ export function fetchSymbols() {
 
 export function addQuotes(symbols) {
 	return dispatch => {
+    dispatch(getSymbolsRequest())
     return axios
       .get(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote`)
       .then(response => {
         dispatch(populateQuotes(response.data, symbols));
+        dispatch(getSymbolsSucess())
       })
       .catch(error => {
         console.log(error.response.data);
@@ -86,12 +88,13 @@ export function addQuotes(symbols) {
 
 export function addListQuotes(symbols) {
   const stringifySymbols = symbols.join(',')
-  console.log(symbols)
 	return dispatch => {
+    dispatch(getSymbolsRequest())
     return axios
       .get(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${stringifySymbols}&types=quote`)
       .then(response => {
         dispatch(populateListQuotes(response.data, symbols));
+        dispatch(getSymbolsSucess())
         console.log("It ended well")
       })
       .catch(error => {

@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  RefreshControl
+  RefreshControl,
+  ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import moment from 'moment';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -24,17 +26,17 @@ import {
 } from "../actions/stockActions";
 import StockList from "../components/common/StockList";
 
-const {height } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
 class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       quotes: props.quotes,
-      refreshing: false,
+      refreshing: false
     };
     this.onRefresh = this.onRefresh.bind(this);
-    this.sortListByPrice = this.sortListByPrice.bind(this)
+    this.sortListByPrice = this.sortListByPrice.bind(this);
   }
 
   componentDidMount() {
@@ -50,7 +52,6 @@ class MainComponent extends Component {
   }
 
   async onRefresh() {
-    console.log("starting");
     const { selectedSymbols } = this.props;
     await this.setState({ refreshing: true }),
       await this.props.addListQuotes(selectedSymbols).then(() =>
@@ -61,10 +62,10 @@ class MainComponent extends Component {
   }
 
   sortListByPrice() {
-    const sortedQuote = this.state.quotes.sort((a, b) => a > b)
+    const sortedQuote = this.state.quotes.sort((a, b) => a > b);
     this.setState({
       quotes: sortedQuote
-    })
+    });
   }
   onPressDelete(symbol) {
     this.props.deleteSymbols(symbol);
@@ -75,11 +76,12 @@ class MainComponent extends Component {
       name={item.companyName}
       symbol={item.symbol}
       latestPrice={item.latestPrice}
-      timeUpdated={item.latestUpdate}
+      timeUpdated={moment(item.latestUpdate).format('LL')}
       onPressDelete={() => this.onPressDelete(item.symbol)}
     />
   );
   render() {
+    console.log(this.props.loaded);
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
@@ -96,19 +98,25 @@ class MainComponent extends Component {
           </View>
         </View>
         <View>
-          <FlatList
-            data={this.state.quotes}
-            keyExtractor={index => index.toString()}
-            renderItem={this.renderItem}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this.onRefresh}
-              />
-            }
-            removeClippedSubviews={false}
-            showsVerticalScrollIndicator={false}
-          />
+          {this.props.loaded ? (
+            <FlatList
+              data={this.state.quotes}
+              keyExtractor={index => index.toString()}
+              renderItem={this.renderItem}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.onRefresh}
+                />
+              }
+              removeClippedSubviews={false}
+              showsVerticalScrollIndicator={false}
+            />
+          ) : (
+            <View style= {{padding: 10}}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+          )}
         </View>
       </View>
     );
@@ -118,7 +126,8 @@ class MainComponent extends Component {
 const mapStateToProps = state => ({
   symbols: state.stockReducer.symbols,
   quotes: state.stockReducer.quotes,
-  selectedSymbols: state.stockReducer.selectedSymbols
+  selectedSymbols: state.stockReducer.selectedSymbols,
+  loaded: state.stockReducer.loaded
 });
 
 const mapDispatchToProps = dispatch =>

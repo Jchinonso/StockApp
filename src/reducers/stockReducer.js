@@ -2,17 +2,30 @@ import {
   FETCH_ALL_SYMBOLS,
   POPULATE_QUOTES,
   POPULATE_LIST_QUOTES,
-  DELETE_SYMBOL
+  DELETE_SYMBOL,
+  GET_SYMBOLS_SUCCESS,
+  GET_SYMBOLS_REQUEST
 } from "../actions/actionTypes";
 
 const initialState = {
   symbols: [],
   quotes: [],
-  selectedSymbols: []
+  selectedSymbols: [],
+  loaded: true
 };
 
 export default function stockReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_SYMBOLS_REQUEST:
+    return {
+      ...state,
+      loaded: false
+    }
+    case GET_SYMBOLS_SUCCESS:
+    return {
+      ...state,
+      loaded: true
+    }
     case FETCH_ALL_SYMBOLS:
       return {
         ...state,
@@ -65,7 +78,7 @@ export default function stockReducer(state = initialState, action) {
         selectedSymbols: filteredSymbols,
         quotes: filteredQuotes
       };
-      
+
     default:
       return state;
   }
