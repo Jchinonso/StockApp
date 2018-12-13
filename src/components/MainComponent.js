@@ -11,7 +11,8 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import moment from 'moment';
+import moment from "moment";
+import PropTypes from "prop-types";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -76,12 +77,11 @@ class MainComponent extends Component {
       name={item.companyName}
       symbol={item.symbol}
       latestPrice={item.latestPrice}
-      timeUpdated={moment(item.latestUpdate).format('LL')}
+      timeUpdated={moment(item.latestUpdate).format("LL")}
       onPressDelete={() => this.onPressDelete(item.symbol)}
     />
   );
   render() {
-    console.log(this.props.loaded);
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
@@ -113,7 +113,7 @@ class MainComponent extends Component {
               showsVerticalScrollIndicator={false}
             />
           ) : (
-            <View style= {{padding: 10}}>
+            <View style={{ padding: 10 }}>
               <ActivityIndicator size="large" color="#0000ff" />
             </View>
           )}
@@ -135,12 +135,20 @@ const mapDispatchToProps = dispatch =>
     {
       deleteSymbols,
       fetchSymbols,
-      clearState,
       addListQuotes
     },
     dispatch
   );
 
+MainComponent.propTypes = {
+  addListQuotes: PropTypes.func.isRequired,
+  fetchSymbols: PropTypes.func.isRequired,
+  deleteSymbols: PropTypes.func.isRequired,
+  symbols: PropTypes.array.isRequired,
+  quotes: PropTypes.array.isRequired,
+  selectedSymbols: PropTypes.array.isRequired,
+  loaded: PropTypes.bool.isRequired
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -28,7 +29,15 @@ function StockList(props) {
   );
 }
 
+StockList.propTypes = {
+  onPressDelete: PropTypes.func.isRequired,
+  timeUpdated: PropTypes.string.isRequired,
+  latestPrice: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+};
+
 export default StockList;
+
 
 const styles = StyleSheet.create({
   container: {

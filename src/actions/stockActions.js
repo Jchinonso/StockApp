@@ -89,12 +89,10 @@ export function addQuotes(symbols) {
 export function addListQuotes(symbols) {
   const stringifySymbols = symbols.join(',')
 	return dispatch => {
-    dispatch(getSymbolsRequest())
     return axios
       .get(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${stringifySymbols}&types=quote`)
       .then(response => {
         dispatch(populateListQuotes(response.data, symbols));
-        dispatch(getSymbolsSucess())
         console.log("It ended well")
       })
       .catch(error => {

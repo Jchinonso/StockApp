@@ -4,17 +4,19 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
+  FlatList
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from "redux";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
-import { addQuotes } from "../actions/stockActions";
 import { connect } from "react-redux";
 import { SearchBar } from "react-native-elements";
+import PropTypes from "prop-types";
+
+import { addQuotes } from "../actions/stockActions";
 import MyListItem from "../components/common/MyListItem";
 
 class AddComponent extends Component {
@@ -61,7 +63,6 @@ class AddComponent extends Component {
   onPressAdd(quote) {
     this.props.addQuotes(quote.symbol);
   }
-
 
   render() {
     return (
@@ -111,10 +112,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    { addQuotes },
-    dispatch
-  );
+  bindActionCreators({ addQuotes }, dispatch);
+
+AddComponent.propTypes = {
+  addQuotes: PropTypes.func.isRequired,
+  symbols: PropTypes.array.isRequired,
+  selectedSymbols: PropTypes.array.isRequired
+};
 
 export default connect(
   mapStateToProps,

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 function MyListItem(props) {
@@ -20,6 +21,12 @@ function MyListItem(props) {
     </TouchableOpacity>
   );
 }
+
+MyListItem.propTypes = {
+  onPressAdd: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+};
 
 export default MyListItem;
 
