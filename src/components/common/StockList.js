@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from 'prop-types'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import PropTypes from "prop-types";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 function StockList(props) {
@@ -33,16 +33,15 @@ StockList.propTypes = {
   onPressDelete: PropTypes.func.isRequired,
   timeUpdated: PropTypes.string.isRequired,
   latestPrice: PropTypes.string.isRequired,
-  symbol: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired
 };
 
 export default StockList;
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     flexDirection: "row",
     height: 65,
     backgroundColor: "#ffffff",
@@ -53,20 +52,20 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   symbolStock: {
-    alignSelf: 'center'
+    alignSelf: "center"
   },
   symbol: {
     flex: 1,
     flexDirection: "row"
   },
   symbolText: {
-    fontFamily: 'campton',
+    fontFamily: "campton",
     fontSize: 18,
     marginLeft: 10
   },
-   priceText: {
+  priceText: {
     fontSize: 15,
-    fontFamily: 'campton',
+    fontFamily: "campton",
     color: "#000000",
     textAlign: "left",
     marginTop: 10,
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 10,
-    fontFamily: 'campton',
+    fontFamily: "campton",
     color: "#000000",
     textAlign: "left",
     marginTop: 5,

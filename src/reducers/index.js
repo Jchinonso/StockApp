@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import stockReducer from "./stockReducer";
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from "react-native";
 import { CLEAR_STATE } from "../actions/actionTypes";
 
 const appReducer = combineReducers({

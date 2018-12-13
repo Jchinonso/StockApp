@@ -21,10 +21,10 @@ export function getAllSymbols(data) {
 }
 
 export function clearState() {
-  return dispatch => 
-		dispatch ({
-			type: types.CLEAR_STATE,
-		});
+  return dispatch =>
+    dispatch({
+      type: types.CLEAR_STATE
+    });
 }
 
 export function populateQuotes(data, symbol) {
@@ -47,15 +47,15 @@ export function deleteSymbols(symbol) {
   return {
     type: types.DELETE_SYMBOL,
     symbol
-  }
+  };
 }
 
 export function getSelectedSymbols(symbol) {
-	return dispatch => 
-		dispatch ({
-			type: types.SELECTED_SYMBOLS,
-			symbol
-		});
+  return dispatch =>
+    dispatch({
+      type: types.SELECTED_SYMBOLS,
+      symbol
+    });
 }
 
 export function fetchSymbols() {
@@ -72,13 +72,15 @@ export function fetchSymbols() {
 }
 
 export function addQuotes(symbols) {
-	return dispatch => {
-    dispatch(getSymbolsRequest())
+  return dispatch => {
+    dispatch(getSymbolsRequest());
     return axios
-      .get(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote`)
+      .get(
+        `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote`
+      )
       .then(response => {
         dispatch(populateQuotes(response.data, symbols));
-        dispatch(getSymbolsSucess())
+        dispatch(getSymbolsSucess());
       })
       .catch(error => {
         console.log(error.response.data);
@@ -87,13 +89,14 @@ export function addQuotes(symbols) {
 }
 
 export function addListQuotes(symbols) {
-  const stringifySymbols = symbols.join(',')
-	return dispatch => {
+  const stringifySymbols = symbols.join(",");
+  return dispatch => {
     return axios
-      .get(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${stringifySymbols}&types=quote`)
+      .get(
+        `https://api.iextrading.com/1.0/stock/market/batch?symbols=${stringifySymbols}&types=quote`
+      )
       .then(response => {
         dispatch(populateListQuotes(response.data, symbols));
-        console.log("It ended well")
       })
       .catch(error => {
         console.log(error.response.data);

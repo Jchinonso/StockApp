@@ -17,15 +17,15 @@ const initialState = {
 export default function stockReducer(state = initialState, action) {
   switch (action.type) {
     case GET_SYMBOLS_REQUEST:
-    return {
-      ...state,
-      loaded: false
-    }
+      return {
+        ...state,
+        loaded: false
+      };
     case GET_SYMBOLS_SUCCESS:
-    return {
-      ...state,
-      loaded: true
-    }
+      return {
+        ...state,
+        loaded: true
+      };
     case FETCH_ALL_SYMBOLS:
       return {
         ...state,
@@ -35,16 +35,15 @@ export default function stockReducer(state = initialState, action) {
       const updatedListSymbols = Object.keys(action.data).map(item => {
         return action.data[`${item}`].quote;
       });
-      
-      const filterListUpdatedQuote = state.quotes.filter((item) => {
-        return action.symbol.every((newItem) => newItem !== item.symbol)
-      })
+
+      const filterListUpdatedQuote = state.quotes.filter(item => {
+        return action.symbol.every(newItem => newItem !== item.symbol);
+      });
 
       return {
         ...state,
         quotes: [...updatedListSymbols, ...filterListUpdatedQuote]
       };
-
 
     case POPULATE_QUOTES:
       const { symbol } = action;

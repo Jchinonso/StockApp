@@ -22,7 +22,6 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   deleteSymbols,
   fetchSymbols,
-  clearState,
   addListQuotes
 } from "../actions/stockActions";
 import StockList from "../components/common/StockList";
