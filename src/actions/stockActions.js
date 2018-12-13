@@ -35,7 +35,7 @@ export function populateQuotes(data, symbol) {
   };
 }
 
-export function populateListQuotes(data) {
+export function populateListQuotes(data, symbol) {
   return {
     type: types.POPULATE_LIST_QUOTES,
     data,
@@ -64,7 +64,6 @@ export function fetchSymbols() {
       .get("https://api.iextrading.com/1.0/ref-data/symbols")
       .then(response => {
         dispatch(getAllSymbols(response.data));
-        console.log("End the operations");
       })
       .catch(error => {
         console.log(error.response.data);
@@ -78,7 +77,6 @@ export function addQuotes(symbols) {
       .get(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote`)
       .then(response => {
         dispatch(populateQuotes(response.data, symbols));
-        console.log("End the operations");
       })
       .catch(error => {
         console.log(error.response.data);
@@ -88,12 +86,13 @@ export function addQuotes(symbols) {
 
 export function addListQuotes(symbols) {
   const stringifySymbols = symbols.join(',')
+  console.log(symbols)
 	return dispatch => {
     return axios
       .get(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${stringifySymbols}&types=quote`)
       .then(response => {
-        dispatch(populateListQuotes(response.data));
-        console.log("End the operations");
+        dispatch(populateListQuotes(response.data, symbols));
+        console.log("It ended well")
       })
       .catch(error => {
         console.log(error.response.data);

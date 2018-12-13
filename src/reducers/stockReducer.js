@@ -23,11 +23,8 @@ export default function stockReducer(state = initialState, action) {
         return action.data[`${item}`].quote;
       });
       
-      const symbolList = state.quotes.map(
-        item => item.symbol
-      );
-      const filterListUpdatedQuote = symbolList.filter((item) => {
-        return action.symbol.map((newItem) => item !== newItem )
+      const filterListUpdatedQuote = state.quotes.filter((item) => {
+        return action.symbol.every((newItem) => newItem !== item.symbol)
       })
 
       return {
@@ -35,7 +32,7 @@ export default function stockReducer(state = initialState, action) {
         quotes: [...updatedListSymbols, ...filterListUpdatedQuote]
       };
 
-      
+
     case POPULATE_QUOTES:
       const { symbol } = action;
 

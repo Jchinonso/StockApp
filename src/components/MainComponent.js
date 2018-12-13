@@ -5,11 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Animated,
   Dimensions,
-  AsyncStorage
+  RefreshControl
 } from "react-native";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -19,10 +19,10 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   deleteSymbols,
   fetchSymbols,
-  clearState
+  clearState,
+  addListQuotes
 } from "../actions/stockActions";
 import StockList from "../components/common/StockList";
-import AddComponent from "./AddComponent";
 
 const { width, height } = Dimensions.get("window");
 
@@ -30,13 +30,14 @@ class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      settingsBounceValue: new Animated.Value(height),
-      quotes: props.quotes
+      quotes: props.quotes,
+      refreshing: false
     };
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchSymbols()
+    this.props.fetchSymbols();
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -47,26 +48,18 @@ class MainComponent extends Component {
     } else return null;
   }
 
-  toggleSubview = () => {
-    Animated.spring(this.state.settingsBounceValue, {
-      toValue: 0,
-      velocity: 3,
-      tension: 2,
-      friction: 6
-    }).start();
-  };
-
-  closeSubview = () => {
-    Animated.spring(this.state.settingsBounceValue, {
-      toValue: height,
-      velocity: 3,
-      tension: 2,
-      friction: 6
-    }).start();
-  };
+  async onRefresh() {
+    console.log("starting");
+    const { selectedSymbols } = this.props;
+    await this.setState({ refreshing: true }),
+      await this.props.addListQuotes(selectedSymbols).then(() =>
+        this.setState({
+          refreshing: false
+        })
+      );
+  }
 
   onPressDelete(symbol) {
-    
     this.props.deleteSymbols(symbol);
   }
 
@@ -74,6 +67,8 @@ class MainComponent extends Component {
     <StockList
       name={item.companyName}
       symbol={item.symbol}
+      latestPrice={item.latestPrice}
+      timeUpdated={item.latestUpdate}
       onPressDelete={() => this.onPressDelete(item.symbol)}
     />
   );
@@ -82,11 +77,13 @@ class MainComponent extends Component {
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <View style={styles.textContainer}>
-            <TouchableOpacity onPress={this.props.closeSubview}>
-              <Text style={[styles.text, styles.marginLeftText]}>Done</Text>
+            <TouchableOpacity>
+              <Text style={[styles.text, styles.marginLeftText]}>Sort</Text>
             </TouchableOpacity>
-            <Text style={styles.text}>Add</Text>
-            <TouchableOpacity onPress={this.toggleSubview}>
+            <Text style={styles.text}>Stock App</Text>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Add")}
+            >
               <Ionicons name="ios-add" size={32} color="blue" />
             </TouchableOpacity>
           </View>
@@ -96,28 +93,16 @@ class MainComponent extends Component {
             data={this.state.quotes}
             keyExtractor={index => index.toString()}
             renderItem={this.renderItem}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
             removeClippedSubviews={false}
             showsVerticalScrollIndicator={false}
           />
         </View>
-        <Animated.View
-          style={[
-            styles.addComponentView,
-            {
-              transform: [
-                { translateY: this.state.settingsBounceValue },
-                { perspective: 1000 }
-              ]
-            }
-          ]}
-        >
-          <AddComponent
-            closeSubview={this.closeSubview}
-            symbols={this.props.symbols}
-            quotes={this.props.quotes}
-            selectedSymbols={this.props.selectedSymbols}
-          />
-        </Animated.View>
       </View>
     );
   }
@@ -129,19 +114,30 @@ const mapStateToProps = state => ({
   selectedSymbols: state.stockReducer.selectedSymbols
 });
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      deleteSymbols,
+      fetchSymbols,
+      clearState,
+      addListQuotes
+    },
+    dispatch
+  );
+
 export default connect(
   mapStateToProps,
-  { deleteSymbols, fetchSymbols, clearState }
+  mapDispatchToProps
 )(MainComponent);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000"
+    backgroundColor: "#fffff"
   },
   headerContainer: {
     height: hp("12%"),
-    backgroundColor: "#202020"
+    backgroundColor: "#CCCCCC"
   },
   textContainer: {
     flexDirection: "row",
@@ -151,7 +147,7 @@ const styles = StyleSheet.create({
     marginRight: 16
   },
   text: {
-    color: "#fff",
+    color: "#000000",
     fontSize: 20,
     fontWeight: "500",
     fontFamily: "campton"
@@ -174,7 +170,7 @@ const styles = StyleSheet.create({
     right: 0,
     flex: 1,
     backgroundColor: "#000000",
-    height,
+    height
   },
-  marginLeftText: { marginLeft: 10, color: 'blue' }
+  marginLeftText: { marginLeft: 10, color: "blue" }
 });

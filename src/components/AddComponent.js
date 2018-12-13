@@ -11,7 +11,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
-import { getSelectedSymbols, addQuotes } from "../actions/stockActions";
+import { addQuotes } from "../actions/stockActions";
 import { connect } from "react-redux";
 import { SearchBar } from "react-native-elements";
 import MyListItem from "../components/common/MyListItem";
@@ -49,17 +49,19 @@ class AddComponent extends Component {
       id={item.id}
       name={item.name}
       symbol={item.symbol}
-      onPressAdd={() => this.onPressAdd(item)}
+      onPressAdd={() => {
+        return Promise.resolve(this.onPressAdd(item)).then(() => {
+          this.props.navigation.goBack();
+        });
+      }}
     />
   );
 
- 
   onPressAdd(quote) {
-    this.props.addQuotes(quote.symbol)
+    this.props.addQuotes(quote.symbol);
   }
-  
+
   render() {
-    
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
@@ -77,7 +79,7 @@ class AddComponent extends Component {
                 name: "search"
               }}
             />
-            <TouchableOpacity onPress={this.props.closeSubview}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
           </View>
@@ -100,19 +102,24 @@ class AddComponent extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  selectedSymbols: state.stockReducer.selectedSymbols,
+  symbols: state.stockReducer.symbols
+});
+
 export default connect(
-  null,
-  { getSelectedSymbols, addQuotes }
+  mapStateToProps,
+  { addQuotes }
 )(AddComponent);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000"
+    backgroundColor: "#ffffff"
   },
   headerContainer: {
     height: hp("17%"),
-    backgroundColor: "#202020"
+    backgroundColor: "#CCCCCC"
   },
   textContainer: {
     flexDirection: "row",
@@ -122,9 +129,9 @@ const styles = StyleSheet.create({
     marginRight: 16
   },
   text: {
-    color: "#fff",
-    fontSize: 17,
-    fontWeight: "500",
+    color: "#000000",
+    fontSize: 15,
+    fontWeight: "bold",
     fontFamily: "campton"
   },
   searchBarContainer: {
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     width: wp("80%")
   },
-  cancelText: { color: "#fff" },
+  cancelText: { color: "#000000", fontFamily: "campton" },
   searchBarInputStyle: {
     height: 36,
     backgroundColor: "#fff"

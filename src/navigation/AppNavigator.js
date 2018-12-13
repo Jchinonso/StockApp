@@ -1,13 +1,15 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation";
 
-import DisplayComponent from '../components/DisplayComponent';
+import MainComponent from '../components/MainComponent';
+import AddComponent from '../components/AddComponent';
 
 const AppNavigator = createStackNavigator(
   {
-    Display: {screen: DisplayComponent},
+    Main: {screen: MainComponent},
+    Add: {screen: AddComponent }
   },
-  {headerMode: 'none', initialRouteName: 'Display'}
+  {headerMode: 'none', initialRouteName: 'Main'}
 );
 
 export default AppNavigator;
