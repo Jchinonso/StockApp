@@ -97,19 +97,19 @@ class MainComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        >
           {this.props.loaded ? (
-          
             <FlatList
               data={this.state.quotes}
               keyExtractor={index => index.toString()}
               renderItem={this.renderItem}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this.onRefresh}
-                />
-              }
               removeClippedSubviews={false}
               showsVerticalScrollIndicator={false}
             />
