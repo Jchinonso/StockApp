@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  FlatList
+  FlatList,
+  ScrollView
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { bindActionCreators } from "redux";
@@ -88,7 +89,7 @@ class AddComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View>
+        <ScrollView>
           <FlatList
             data={
               this.state.search
@@ -100,7 +101,7 @@ class AddComponent extends Component {
             removeClippedSubviews={false}
             showsVerticalScrollIndicator={false}
           />
-        </View>
+        </ScrollView>
       </View>
     );
   }

@@ -7,7 +7,8 @@ import {
   FlatList,
   Dimensions,
   RefreshControl,
-  ActivityIndicator
+  ActivityIndicator,
+  ScrollView
 } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -96,8 +97,9 @@ class MainComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View>
+        <ScrollView>
           {this.props.loaded ? (
+          
             <FlatList
               data={this.state.quotes}
               keyExtractor={index => index.toString()}
@@ -116,7 +118,7 @@ class MainComponent extends Component {
               <ActivityIndicator size="large" color="#0000ff" />
             </View>
           )}
-        </View>
+        </ScrollView>
       </View>
     );
   }
