@@ -94,7 +94,7 @@ class AddComponent extends Component {
             data={
               this.state.search
                 ? this.state.filteredSymbols
-                : this.props.symbols.slice(0, 10)
+                : this.props.symbols
             }
             keyExtractor={index => index.toString()}
             renderItem={this.renderItem}
