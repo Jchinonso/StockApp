@@ -63,7 +63,9 @@ class MainComponent extends Component {
   }
 
   sortListByPrice() {
-    const sortedQuote = this.state.quotes.sort((a, b) => a > b);
+    const sortedQuote = this.state.quotes.sort(
+      (a, b) => a.latestPrice > b.latestPrice
+    );
     this.setState({
       quotes: sortedQuote
     });
@@ -97,14 +99,7 @@ class MainComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-        >
+        <View style={styles.flatlistContainer}>
           {this.props.loaded ? (
             <FlatList
               data={this.state.quotes}
@@ -112,13 +107,19 @@ class MainComponent extends Component {
               renderItem={this.renderItem}
               removeClippedSubviews={false}
               showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.onRefresh}
+                />
+              }
             />
           ) : (
             <View style={{ padding: 10 }}>
               <ActivityIndicator size="large" color="#0000ff" />
             </View>
           )}
-        </ScrollView>
+        </View>
       </View>
     );
   }
@@ -197,5 +198,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
     height
   },
-  marginLeftText: { marginLeft: 10, color: "blue" }
+  marginLeftText: {
+    marginLeft: 10,
+    color: "blue"
+  },
+  flatlistContainer: {
+    flex: 1
+  }
 });

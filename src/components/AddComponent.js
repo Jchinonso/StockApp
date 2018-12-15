@@ -89,7 +89,7 @@ class AddComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView>
+        <View style={styles.flatlistContainer}>
           <FlatList
             data={
               this.state.search
@@ -101,7 +101,7 @@ class AddComponent extends Component {
             removeClippedSubviews={false}
             showsVerticalScrollIndicator={false}
           />
-        </ScrollView>
+        </View>
       </View>
     );
   }
@@ -161,5 +161,12 @@ const styles = StyleSheet.create({
     height: 36,
     backgroundColor: "#fff"
   },
-  searchSection: { flex: 1, flexDirection: "row", alignItems: "center" }
+  searchSection: { 
+    flex: 1, 
+    flexDirection: "row", 
+    alignItems: "center" 
+  },
+  flatlistContainer: {
+    flex: 1
+  }
 });
