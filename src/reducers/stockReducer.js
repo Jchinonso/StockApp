@@ -32,10 +32,6 @@ export default function stockReducer(state = initialState, action) {
         symbols: action.data
       };
     case POPULATE_LIST_QUOTES:
-      const updatedListSymbols = Object.keys(action.data).map(item => {
-        return action.data[`${item}`].quote;
-      });
-
       const filterListUpdatedQuote = state.quotes.filter(item => {
         return action.symbol.includes(item.symbol);
       });
