@@ -37,12 +37,12 @@ export default function stockReducer(state = initialState, action) {
       });
 
       const filterListUpdatedQuote = state.quotes.filter(item => {
-        return action.symbol.every(newItem => newItem !== item.symbol);
+        return action.symbol.includes(item.symbol);
       });
 
       return {
         ...state,
-        quotes: [...updatedListSymbols, ...filterListUpdatedQuote]
+        quotes: filterListUpdatedQuote
       };
 
     case POPULATE_QUOTES:

@@ -32,7 +32,7 @@ function StockList(props) {
 StockList.propTypes = {
   onPressDelete: PropTypes.func.isRequired,
   timeUpdated: PropTypes.string.isRequired,
-  latestPrice: PropTypes.string.isRequired,
+  latestPrice: PropTypes.number.isRequired,
   symbol: PropTypes.string.isRequired
 };
 

@@ -96,7 +96,7 @@ class AddComponent extends Component {
                 ? this.state.filteredSymbols
                 : this.props.symbols
             }
-            keyExtractor={index => index.toString()}
+            keyExtractor={(item, index ) => index.toString()}
             renderItem={this.renderItem}
             removeClippedSubviews={false}
             showsVerticalScrollIndicator={false}

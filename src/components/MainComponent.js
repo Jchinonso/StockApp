@@ -103,7 +103,7 @@ class MainComponent extends Component {
           {this.props.loaded ? (
             <FlatList
               data={this.state.quotes}
-              keyExtractor={index => index.toString()}
+              keyExtractor={(item, index ) => index.toString()}
               renderItem={this.renderItem}
               removeClippedSubviews={false}
               showsVerticalScrollIndicator={false}
@@ -159,7 +159,7 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fffff"
+    backgroundColor: "#ffffff"
   },
   headerContainer: {
     height: hp("12%"),
