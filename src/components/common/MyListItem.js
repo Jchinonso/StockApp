@@ -6,7 +6,6 @@ function MyListItem(props) {
   return (
     <TouchableOpacity
       onPress={props.onPressAdd}
-      key={props.id}
     >
       <View style={styles.container}>
         <View style={styles.stock}>

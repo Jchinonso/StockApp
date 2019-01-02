@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 function StockList(props) {
   return (
-    <View underlayColor="#202020">
+    <View>
       <View style={styles.container}>
         <View style={styles.symbolStock}>
           <Text style={styles.symbolText}>{props.symbol}</Text>

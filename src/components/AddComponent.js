@@ -44,7 +44,8 @@ class AddComponent extends Component {
     this.setState({
       search: true,
       filteredSymbols: this.props.symbols.filter(item => {
-        return item.symbol.toLowerCase().includes(text.toLowerCase());
+        return item.symbol.toLowerCase().includes(text.toLowerCase()) ||
+         item.name.toLowerCase().includes(text.toLowerCase())
       })
     });
   }
