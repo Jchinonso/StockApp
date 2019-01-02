@@ -47,7 +47,7 @@ export default function stockReducer(state = initialState, action) {
         return item !== symbol;
       });
       const updatedSymbols = Object.keys(action.data).map(item => {
-        return action.data[`${item}`].quote;
+        return action.data[item].quote;
       });
 
       const filterUpdatedQuote = state.quotes.filter(
