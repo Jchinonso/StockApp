@@ -33,7 +33,7 @@ export default function stockReducer(state = initialState, action) {
       };
     case POPULATE_LIST_QUOTES:
       const updatedListSymbols = Object.keys(action.data).map(item => {
-        return action.data[`${item}`].quote;
+        return action.data[item].quote;
       });
       return {
         ...state,
