@@ -52,14 +52,14 @@ class MainComponent extends Component {
     } else return null;
   }
 
-  async onRefresh() {
+  onRefresh() {
     const { selectedSymbols } = this.props;
-    await this.setState({ refreshing: true }),
-      await this.props.addListQuotes(selectedSymbols).then(() =>
-        this.setState({
-          refreshing: false
-        })
-      );
+    this.setState({ refreshing: true }),
+    this.props.addListQuotes(selectedSymbols).then(() =>
+      this.setState({
+        refreshing: false
+      })
+    );
   }
 
   sortListByPrice() {
